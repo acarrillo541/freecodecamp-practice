@@ -25,6 +25,13 @@ app.get("/now", function(req,res,next){
   res.json(ret);
 });
 
+app.get("/:word/echo", function(req,res){
+  var word = req.params.word
+  console.log("here is the word->",word);
+  var wordJson = {"echo":word};
+  res.json(wordJson);
+});
+
 app.get("/", function(req,res){
   res.sendFile(absolutePath);
 });
