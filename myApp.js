@@ -2,16 +2,19 @@ require('dotenv').config()
 
 let express = require('express');
 let app = express();
+let bodyParser=require('body-parser');
 
 
 absolutePath=__dirname + "/views/index.html";
 path=__dirname + "/public";
 
+//use body-parser to Parse POST Requests
+app.use(bodyParser.urlencoded({extended:false}));
+
 app.use("/public",express.static(path));
 
 app.use(function (req,res,next){
   var ret = req.method+" "+req.path+" - "+req.ip;
-  console.log(ret);
   next();
 });
 
@@ -32,10 +35,29 @@ app.get("/:word/echo", function(req,res){
   res.json(wordJson);
 });
 
+//get data from POST requests
+/*
+app.get("/name", function(req,res){
+  var fName;
+  var lName;
+  var {first:fname, last:lname}=req.query;
+  name={"name":fname+' '+lname};
+  res.json(name);
+});
+*/
+
+app.post("/name", function(req,res){
+  var fName;
+  var lName;
+  var {first:fname, last:lname}=req.body;
+  name={"name":fname+' '+lname};
+
+  res.json(name);
+});
+
 app.get("/", function(req,res){
   res.sendFile(absolutePath);
 });
-
 
 app.get("/json", function(req,res){
   message={"message":"Hello json"};
