@@ -14,7 +14,6 @@ app.use(bodyParser.urlencoded({extended:false}));
 app.use("/public",express.static(path));
 
 app.use(function (req,res,next){
-  var ret = req.method+" "+req.path+" - "+req.ip;
   next();
 });
 
